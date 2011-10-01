@@ -3,18 +3,23 @@
 
 import os
 
-from flask import Flask
+import flask
 import pymongo
 
 from models import Eff, collection
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
+app.config.from_object(__name__)
 
 @app.route("/")
 def home():
-    return "<br>".join(["Fuck %s! (%d)"%(doc['eff'], doc['count'])
-        for doc in collection.find(
-            fields={'eff': 1, 'count': 1}).sort('count', pymongo.DESCENDING)])
+    return flask.render_template("index.html",
+            popular=collection.find(fields={'eff': 1, 'count': 1})\
+                     .sort([('count', pymongo.DESCENDING),
+                         ('eff', pymongo.ASCENDING)]).limit(10),
+            recent=collection.find(fields={'eff': 1, 'date_modified': 1})\
+                     .sort([('date_modified', pymongo.DESCENDING),
+                         ('eff', pymongo.ASCENDING)]).limit(10))
 
 @app.route("/<new_eff>/")
 def do_eff(new_eff):

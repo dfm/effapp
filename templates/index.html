@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}WTF{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="span6">
+        <div class="row">
+            <div class="span6">
+                <h2>Popular</h2>
+            </div>
+        </div>
+        {% for doc in popular %}
+            <div class="row">
+                <div class="span5">
+                    <a href="/{{ doc.eff|safe }}">
+                        Fuck {{ doc.eff|safe }}!</a> ({{ doc.count }})
+                </div>
+            </div>
+        {% else %}
+            <li><em>Unbelievable.  No entries here so far</em>
+        {% endfor %}
+    </div>
+
+    <div class="span6">
+        <div class="row">
+            <div class="span6">
+                <h2>Recent</h2>
+            </div>
+        </div>
+        {% for doc in recent %}
+            <div class="row">
+                <div class="span6">
+                    <a href="/{{ doc.eff|safe }}">
+                        Fuck {{ doc.eff|safe }}!</a>
+                </div>
+            </div>
+        {% else %}
+            <li><em>Unbelievable.  No entries here so far</em>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+

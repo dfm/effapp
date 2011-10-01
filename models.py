@@ -21,10 +21,14 @@ class Eff(object):
         if self._doc is None:
             self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now()}
 
+    def __getattr__(self, name):
+        return self._doc[name]
+
     def inc(self):
         self._doc['date_modified'] = datetime.now()
         self._doc['count'] += 1
 
     def save(self):
         self._doc['_id'] = collection.save(self._doc)
+
 
