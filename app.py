@@ -15,9 +15,12 @@ app.config.from_object(__name__)
 
 @app.route("/")
 def home(current=None):
+    number = None
+    if current is not None:
+        number = inflecteng.number_to_words(inflecteng.ordinal(current.count))
     return flask.render_template("index.html",
             current=current,
-            number=inflecteng.number_to_words(inflecteng.ordinal(current.count)),
+            number=number,
             popular=collection.find(fields={'eff': 1, 'count': 1})\
                      .sort([('count', pymongo.DESCENDING),
                          ('eff', pymongo.ASCENDING)]).limit(10),
