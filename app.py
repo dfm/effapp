@@ -23,6 +23,8 @@ def home():
 
 @app.route("/<new_eff>/")
 def do_eff(new_eff):
+    if new_eff.lower() in ['dan', 'daniel', 'dan f-m', 'dfm']:
+        return "You wish!"
     if new_eff != "favicon.ico":
         eff = Eff(new_eff)
         eff.inc()
