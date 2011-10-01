@@ -4,6 +4,15 @@
 
 {% block body %}
 
+{% if current %}
+<div class="row">
+    <center>
+        <h1><small>You're the {{ number }} person to say:</small><br>
+        "Fuck {{ current.eff|safe }}!"</h1>
+    </center>
+</div>
+{% endif %}
+
 <div class="row">
     <div class="span6">
         <div class="row">
@@ -19,7 +28,7 @@
                 </div>
             </div>
         {% else %}
-            <li><em>Unbelievable.  No entries here so far</em>
+            <em>Unbelievable.  No entries here so far</em>
         {% endfor %}
     </div>
 
@@ -37,7 +46,7 @@
                 </div>
             </div>
         {% else %}
-            <li><em>Unbelievable.  No entries here so far</em>
+            <em>Unbelievable.  No entries here so far</em>
         {% endfor %}
     </div>
 </div>

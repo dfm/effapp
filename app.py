@@ -5,6 +5,8 @@ import os
 
 import flask
 import pymongo
+import inflect
+inflecteng = inflect.engine()
 
 from models import Eff, collection
 
@@ -12,8 +14,10 @@ app = flask.Flask(__name__)
 app.config.from_object(__name__)
 
 @app.route("/")
-def home():
+def home(current=None):
     return flask.render_template("index.html",
+            current=current,
+            number=inflecteng.number_to_words(inflecteng.ordinal(current.count)),
             popular=collection.find(fields={'eff': 1, 'count': 1})\
                      .sort([('count', pymongo.DESCENDING),
                          ('eff', pymongo.ASCENDING)]).limit(10),
@@ -29,6 +33,7 @@ def do_eff(new_eff):
         eff = Eff(new_eff)
         eff.inc()
         eff.save()
+        return home(current=eff)
     return home()
 
 if __name__ == "__main__":
