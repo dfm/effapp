@@ -4,4 +4,4 @@ include
 lib
 .Python
 *.pyc
-
+*.sw[po]
