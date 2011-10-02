@@ -8,10 +8,14 @@ import pymongo
 import inflect
 inflecteng = inflect.engine()
 
-from models import Eff, collection
+from models import Eff
 
 app = flask.Flask(__name__)
 app.config.from_object(__name__)
+
+from database import Database
+db = Database()
+
 
 @app.route("/")
 def home(current=None):
@@ -19,22 +23,16 @@ def home(current=None):
     if current is not None:
         number = inflecteng.number_to_words(inflecteng.ordinal(current.count))
     return flask.render_template("index.html",
-            current=current,
-            number=number,
-            popular=collection.find(fields={'eff': 1, 'count': 1})\
-                     .sort([('count', pymongo.DESCENDING),
-                         ('eff', pymongo.ASCENDING)]).limit(10),
-            recent=collection.find(fields={'eff': 1, 'date_modified': 1})\
-                     .sort([('date_modified', pymongo.DESCENDING),
-                         ('eff', pymongo.ASCENDING)]).limit(10))
+                                 current = current,
+                                 number  = number,
+                                 popular = db.get_popular(10),
+                                 recent  = db.get_recent(10))
 
 @app.route("/<new_eff>/")
 def do_eff(new_eff):
-    if new_eff.lower() in ['dan', 'daniel', 'dan f-m', 'dfm']:
-        return "You wish!"
-    if new_eff != "favicon.ico":
-        eff = Eff(new_eff)
-        eff.inc()
+    if new_eff != None:
+        eff = Eff(new_eff, db)
+        eff.increment()
         eff.save()
         return home(current=eff)
     return home()

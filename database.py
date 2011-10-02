@@ -17,8 +17,8 @@ class Database(object):
   def save(self, item):
     return self.collection.save(item)
 
-  def __getattr__(self, item):
-    result = collection.find_one({'eff': item})
+  def __getitem__(self, item):
+    result = self.collection.find_one({'eff': item})
     if result is None:
       raise KeyError
     return result
