@@ -6,3 +6,6 @@ lib
 *.pyc
 *.sw[po]
 keys.sh
+.DS_Store
+.zshrc
+
