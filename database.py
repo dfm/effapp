@@ -3,10 +3,7 @@
 
 import config
 import pymongo
-<<<<<<< HEAD
-=======
 from time import time
->>>>>>> 6f6645926094e1045f84ffa32937a8f743396652
 
 class Database(object):
   def __init__(self):
@@ -27,12 +24,9 @@ class Database(object):
       raise KeyError
     return result
 
-<<<<<<< HEAD
-=======
   def get_access_times(self, item):
     return self.collection.find_one({"eff":item}, fields={'date_access' : 1 })
 
->>>>>>> 6f6645926094e1045f84ffa32937a8f743396652
   def cache_list_request(field):
     def wrap(func):
       def cache(self, limit=10, *args, **kwargs):
@@ -57,21 +51,15 @@ class Database(object):
   @cache_list_request("recent")
   def get_recent(self, limit=10):
     return self.collection.find(fields={'eff': 1, 'date_modified': 1}) \
-<<<<<<< HEAD
-                          .sort([('date_modified', pymongo.DESCENDING),('eff', pymongo.ASCENDING)]) \
-                          .limit(limit)
-
-=======
                           .sort([('date_created', pymongo.DESCENDING),('eff', pymongo.ASCENDING)]) \
                           .limit(limit)
 
 
 
->>>>>>> 6f6645926094e1045f84ffa32937a8f743396652
 if __name__ == "__main__":
   d = Database()
   from time import time
-  
+
   start = time()
   popular = d.get_popular(10)
   print "Getting populars with DB call took %f s"%(time()-start)
