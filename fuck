@@ -1,0 +1,4 @@
+#!/bin/sh
+
+fuck=`echo $@ | sed 's/ /%20/g'`
+wget -qO - "http://fierce-summer-4017.herokuapp.com/text/${fuck}"

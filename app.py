@@ -50,8 +50,8 @@ def do_eff_gui(new_eff):
 def do_eff_text(new_eff):
     if new_eff != None:
         eff = give_fuck(new_eff)
-        return flask.make_response("Fucks given about %s: %s"%(new_eff, eff.count))
-    return flask.make_response("You don't give a fuck about giving a fuck")
+        return flask.make_response("Fucks given about %s: %s\n"%(new_eff, eff.count))
+    return flask.make_response("You don't give a fuck about giving a fuck\n")
 
 @app.route("/data/<eff_name>/")
 def show_data(eff_name):
