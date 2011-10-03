@@ -16,7 +16,7 @@ class Eff(object):
         except KeyError:
             self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now(), 'date_access': []}
         if 'short_url' not in self._doc:
-            data = {"longUrl": '/'.join([config.BASEURL, eff])}
+            data = {"longUrl": '/'.join([config.BASEURL, "fuck", eff])}
             headers = {"Content-Type": "application/json"}
             req = urllib2.Request(google_url, json.dumps(data), headers)
             res = json.loads(urllib2.urlopen(req).read())

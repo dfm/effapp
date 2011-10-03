@@ -13,6 +13,7 @@
 </div>
 <div class="row" id="share">
     <center>
+        <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{ current.short_url }}"><br>
         Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
     </center>
 </div>
@@ -28,7 +29,7 @@
         {% for doc in popular %}
             <div class="row">
                 <div class="span5">
-                    <a href="/{{ doc.eff|safe }}">
+                    <a href="/fuck/{{ doc.eff|safe }}">
                         Fuck {{ doc.eff|safe }}!</a> ({{ doc.count }})
                 </div>
             </div>
@@ -46,7 +47,7 @@
         {% for doc in recent %}
             <div class="row">
                 <div class="span6">
-                    <a href="/{{ doc.eff|safe }}">
+                    <a href="/fuck/{{ doc.eff|safe }}">
                         Fuck {{ doc.eff|safe }}!</a>
                 </div>
             </div>

@@ -29,19 +29,34 @@ def home(current=None):
                                  popular = db.get_popular(10),
                                  recent  = db.get_recent(10))
 
-@app.route("/<new_eff>/")
-def do_eff(new_eff):
+def give_fuck(fuck):
+    eff = Eff(fuck, db)
+    eff.increment()
+    eff.save()
+    return eff
+
+@app.route("/fuck/<new_eff>/")
+def do_eff_gui(new_eff):
     if new_eff != None:
-        eff = Eff(new_eff, db)
-        eff.increment()
-        eff.save()
+        eff = give_fuck(new_eff)
         return home(current=eff)
     return home()
+
+@app.route("/text/<new_eff>/")
+def do_eff_text(new_eff):
+    if new_eff != None:
+        eff = give_fuck(new_eff)
+        return flask.make_response("Fucks given about %s: %s"%(new_eff, eff.count))
+    return flask.make_response("You don't give a fuck about giving a fuck")
 
 @app.route("/data/<eff_name>/")
 def show_data(eff_name):
   eff = Eff(eff_name, db)
   return flask.make_response(json.dumps(eff.date_access, default=str))
+
+@app.route("/favicon.ico")
+def favicon():
+  pass
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
