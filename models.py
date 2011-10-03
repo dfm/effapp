@@ -27,11 +27,7 @@ class Eff(object):
 
     def increment(self):
         self._doc['date_modified'] = datetime.now()
-        try: #this try statement is only there until all objects in the database get updated with this property!
-             # .. we could also just purge the data.
-          self._doc['date_access'].append(datetime.now())
-        except:
-          self._doc['date_access'] = [datetime.now(), ]
+        self._doc['date_access'].append(datetime.now())
         self._doc['count'] += 1
 
     def save(self):

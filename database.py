@@ -51,7 +51,7 @@ class Database(object):
   @cache_list_request("recent")
   def get_recent(self, limit=10):
     return self.collection.find(fields={'eff': 1, 'date_modified': 1}) \
-                          .sort([('date_created', pymongo.DESCENDING),('eff', pymongo.ASCENDING)]) \
+                          .sort([('date_modified', pymongo.DESCENDING)]) \
                           .limit(limit)
 
 
