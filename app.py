@@ -3,6 +3,7 @@
 
 import os
 
+import json
 import flask
 import pymongo
 import inflect
@@ -36,6 +37,11 @@ def do_eff(new_eff):
         eff.save()
         return home(current=eff)
     return home()
+
+@app.route("/data/<eff_name>/")
+def show_data(eff_name):
+  eff = Eff(eff_name, db)
+  return flask.make_response(json.dumps(eff.date_access, default=str))
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
