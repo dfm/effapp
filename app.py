@@ -20,7 +20,6 @@ db = Database()
 @app.route("/", methods=['GET', 'POST'])
 def root(current=None):
     if flask.request.method == 'POST':
-        print flask.request.form['eff']
         return do_eff_gui(flask.request.form['eff'])
     return home()
 
