@@ -5,7 +5,6 @@ import os
 
 import json
 import flask
-import pymongo
 import inflect
 inflecteng = inflect.engine()
 
@@ -18,7 +17,13 @@ from database import Database
 db = Database()
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
+def root(current=None):
+    if flask.request.method == 'POST':
+        print flask.request.form['eff']
+        return do_eff(flask.request.form['eff'])
+    return home()
+
 def home(current=None):
     number = None
     if current is not None:
