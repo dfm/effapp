@@ -20,7 +20,7 @@
     <link rel="icon" href="{{ url_for('.static', filename='favicon.ico') }}" /> 
     <style type="text/css">
         body, html {
-            background-color: #eeeeee;
+            background-color: #fafafa;
         }
 
         .container > footer p {
@@ -42,13 +42,26 @@
         .container {
             width: 700px;
         }
+        
+        .page-header {
+            background-color: #f0f0f0;
+            padding: 20px 20px 20px;
+            margin: -20px -20px 20px;
+            min-height: 60px;
+        }
+        
 
         #share {
             color: #aaaaaa;
             padding-bottom: 15px;
         }
 
+        .center {
+            text-align: center;
+        }
+
     </style>
+    <link rel="stylesheet" href="{{ url_for('.static', filename='form.css') }}">
 
 </head>
 <body>

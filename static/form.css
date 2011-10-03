@@ -1,0 +1,5 @@
+.centeredinput{display:block;width:500px;margin:0 auto;line-height:44px;}.centeredinput input{width:400px;font-size:24px;-webkit-border-radius:0 0 0 0;-moz-border-radius:0 0 0 0;border-radius:0 0 0 0;float:left;height:44px;}
+.centeredinput .begin,.centeredinput .end{position:relative;background:#dddddd;border:1px solid #ccc;z-index:2;float:left;display:block;width:auto;min-width:16px;height:44px;padding:4px 10px 4px 11px;margin-right:-1px;font-weight:normal;color:#888;text-align:center;text-shadow:0 1px 0 #ffffff;}
+.centeredinput .begin{-webkit-border-radius:3px 0 0 3px;-moz-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;*margin-top:1px;}
+.centeredinput .end{-webkit-border-radius:0 3px 3px 0;-moz-border-radius:0 3px 3px 0;border-radius:0 3px 3px 0;margin-right:0;margin-left:-1px;}
+.centeredinput .active{background:#a9dba9;border-color:#46a546;}

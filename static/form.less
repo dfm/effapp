@@ -1,0 +1,77 @@
+@black:             #000;
+@grayLight:         lighten(@black, 75%);
+@white:             #fff;
+
+@green:             #46a546;
+
+.clearfix() {
+    zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+        zoom: 1;
+        *display: inline;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+.border-radius(@radius: 5px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+
+.box-shadow(@shadow: 0 1px 3px rgba(0,0,0,.25)) {
+  -webkit-box-shadow: @shadow;
+     -moz-box-shadow: @shadow;
+          box-shadow: @shadow;
+}
+
+.centeredinput {
+    display: block;
+    width: 500px;
+    margin: 0 auto;
+    line-height: 44px;
+    input {
+        width: 400px;
+        font-size: 24px;
+        .border-radius(0 0 0 0);
+        float: left;
+        height: 44px;
+    }
+    .begin,
+    .end {
+        position: relative;
+        background: #dddddd;
+        border: 1px solid #ccc;
+        z-index: 2;
+        float: left;
+        display: block;
+        width: auto;
+        min-width: 16px;
+        height: 44px;
+        padding: 4px 10px 4px 11px;
+        margin-right: -1px;
+        font-weight: normal;
+        color: #888;
+        text-align: center;
+        text-shadow: 0 1px 0 @white;
+    }
+    .begin {
+        .border-radius(3px 0 0 3px);
+        *margin-top: 1px; /* IE6-7 */
+    }
+    .end {
+        .border-radius(0 3px 3px 0);
+        margin-right: 0;
+        margin-left: -1px;
+    }
+    .active {
+        background: lighten(@green, 30);
+        border-color: @green;
+    }
+}
+

@@ -5,16 +5,22 @@
 {% block body %}
 
 {% if current %}
-<div class="row">
-    <center>
-        <h1><small>You're the {{ number }} person to say:</small><br>
-        "Fuck {{ current.eff|safe }}!"</h1>
-    </center>
+<div class="page-header center">
+    <h1><small>You're the {{ number }} person to say:</small><br>
+    "Fuck {{ current.eff|safe }}!"</h1>
+    Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
 </div>
-<div class="row" id="share">
-    <center>
-        Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
-    </center>
+{% else %}
+<div class="page-header">
+        <div class="clearfix">
+            <div class="input">
+                <div class="centeredinput">
+                    <span class="begin">Fuck</span>
+                    <input size="50" type="text" />
+                    <span class="end">!</span>
+                </div>
+            </div>
+        </div><!-- /clearfix -->
 </div>
 {% endif %}
 
