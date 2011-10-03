@@ -3,6 +3,7 @@
 
 import config
 import pymongo
+from time import time
 
 class Database(object):
   def __init__(self):
@@ -22,6 +23,9 @@ class Database(object):
     if result is None:
       raise KeyError
     return result
+
+  def get_access_times(self, item):
+    return self.collection.find_one({"eff":item}, fields={'date_access' : 1 })
 
   def cache_list_request(field):
     def wrap(func):
@@ -47,8 +51,10 @@ class Database(object):
   @cache_list_request("recent")
   def get_recent(self, limit=10):
     return self.collection.find(fields={'eff': 1, 'date_modified': 1}) \
-                          .sort([('date_modified', pymongo.DESCENDING),('eff', pymongo.ASCENDING)]) \
+                          .sort([('date_created', pymongo.DESCENDING),('eff', pymongo.ASCENDING)]) \
                           .limit(limit)
+
+
 
 if __name__ == "__main__":
   d = Database()

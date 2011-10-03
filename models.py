@@ -14,7 +14,7 @@ class Eff(object):
         try:
             self._doc = db[eff]
         except KeyError:
-            self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now()}
+            self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now(), 'date_access': []}
         if 'short_url' not in self._doc:
             data = {"longUrl": '/'.join([config.BASEURL, eff])}
             headers = {"Content-Type": "application/json"}
@@ -27,6 +27,11 @@ class Eff(object):
 
     def increment(self):
         self._doc['date_modified'] = datetime.now()
+        try: #this try statement is only there until all objects in the database get updated with this property!
+             # .. we could also just purge the data.
+          self._doc['date_access'].append(datetime.now())
+        except:
+          self._doc['date_access'] = [datetime.now(), ]
         self._doc['count'] += 1
 
     def save(self):
