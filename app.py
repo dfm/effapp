@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-# test
-
 import os
 
 import json
