@@ -16,7 +16,7 @@ app.config.from_object(__name__)
 from database import Database
 db = Database()
 
-
+@app.route("/fuck", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
 def root(current=None):
     if flask.request.method == 'POST':
@@ -39,8 +39,10 @@ def give_fuck(fuck):
     eff.save()
     return eff
 
-@app.route("/fuck/<new_eff>/")
-def do_eff_gui(new_eff):
+@app.route("/fuck/<new_eff>")
+@app.route("/fuck/<new_eff>/<gui>")
+def do_eff_gui(new_eff, gui=None):
+    print gui
     if new_eff != None:
         eff = give_fuck(new_eff)
         return home(current=eff)
