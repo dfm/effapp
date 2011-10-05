@@ -14,7 +14,7 @@
 {% else %}
 <div class="page-header">
     <div class="row">
-        <form action="#" method="post">
+        <form action="javascript:handle_eff();" name="eff_form">
             <div class="centeredinput">
                 <span class="begin">Fuck</span>
                     <input name="eff" size="50" type="text" />
@@ -22,10 +22,12 @@
             </div>
         </form>
     </div><!-- /clearfix -->
-    <!--<div class="row center">
-        <a href="#" class="btn large primary">Fuck it!</a>
-    </div>-->
 </div>
+<script type="text/javascript">
+    var handle_eff = function() {
+        return window.location.replace('/fuck/' + document.eff_form.eff.value);
+    };
+</script>
 {% endif %}
 
 <div class="row">

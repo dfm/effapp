@@ -16,14 +16,46 @@ app.config.from_object(__name__)
 from database import Database
 db = Database()
 
+def give_fuck(fuck):
+    """
+    Increment the eff count
+
+    Parameters
+    ----------
+    fuck : str
+        The name of the eff to increment
+
+    Returns
+    -------
+    eff : Eff
+        The incremented eff object
+
+    """
+    eff = Eff(fuck, db)
+    eff.increment()
+    eff.save()
+    return eff
+
 @app.route("/fuck", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
 def root(current=None):
     if flask.request.method == 'POST':
         return do_eff_gui(flask.request.form['eff'])
-    return home()
+    return render_home()
 
-def home(current=None):
+@app.route("/fuck/<new_eff>")
+@app.route("/fuck/<new_eff>/<gui>")
+def do_eff_gui(new_eff, gui=None):
+    if gui == 'text':
+        return do_eff_text(new_eff)
+    elif gui == 'data':
+        return show_data(new_eff)
+    if new_eff != None:
+        eff = give_fuck(new_eff)
+        return render_home(current=eff)
+    return render_home()
+
+def render_home(current=None):
     number = None
     if current is not None:
         number = inflecteng.number_to_words(inflecteng.ordinal(current.count))
@@ -33,36 +65,19 @@ def home(current=None):
                                  popular = db.get_popular(10),
                                  recent  = db.get_recent(10))
 
-def give_fuck(fuck):
-    eff = Eff(fuck, db)
-    eff.increment()
-    eff.save()
-    return eff
-
-@app.route("/fuck/<new_eff>")
-@app.route("/fuck/<new_eff>/<gui>")
-def do_eff_gui(new_eff, gui=None):
-    print gui
-    if new_eff != None:
-        eff = give_fuck(new_eff)
-        return home(current=eff)
-    return home()
-
-@app.route("/text/<new_eff>/")
 def do_eff_text(new_eff):
     if new_eff != None:
         eff = give_fuck(new_eff)
         return flask.make_response("Fucks given about %s: %s\n"%(new_eff, eff.count))
     return flask.make_response("You don't give a fuck about giving a fuck\n")
 
-@app.route("/data/<eff_name>/")
 def show_data(eff_name):
-  eff = Eff(eff_name, db)
-  return flask.make_response(json.dumps(eff.date_access, default=str))
+    eff = Eff(eff_name, db)
+    return flask.make_response(json.dumps(eff.date_access, default=str))
 
 @app.route("/favicon.ico")
 def favicon():
-  pass
+    pass
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
