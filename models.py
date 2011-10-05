@@ -2,11 +2,8 @@
 # encoding: utf-8
 
 from datetime import datetime
-import urllib2
-import json
 import config
 
-google_url = "https://www.googleapis.com/urlshortener/v1/url?key=%s"%(config.GAPIKEY)
 
 class Eff(object):
     def __init__(self, eff, db):
@@ -15,13 +12,7 @@ class Eff(object):
             self._doc = db[eff]
         except KeyError:
             self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now(), 'date_access': []}
-        self._doc['short_url'] = '/'.join([config.BASEURL, "fuck", eff])
-        # if 'short_url' not in self._doc:
-        #     data = {"longUrl": '/'.join([config.BASEURL, "fuck", eff])}
-        #     headers = {"Content-Type": "application/json"}
-        #     req = urllib2.Request(google_url, json.dumps(data), headers)
-        #     res = json.loads(urllib2.urlopen(req).read())
-        #     self._doc['short_url'] = res['id']
+        self.short_url = '/'.join([config.BASEURL, "fuck", eff])
 
     def __getattr__(self, name):
         return self._doc[name]
