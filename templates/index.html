@@ -10,9 +10,9 @@
     "Fuck {{ current.eff|safe }}!"</h1>
     <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{ current.short_url }}&chld=H|0"><br>
     Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
-</div>
 {% else %}
 <div class="page-header">
+{% endif %}
     <div class="row">
         <form action="javascript:handle_eff();" name="eff_form">
             <div class="centeredinput">
@@ -23,12 +23,6 @@
         </form>
     </div><!-- /clearfix -->
 </div>
-<script type="text/javascript">
-    var handle_eff = function() {
-        return window.location.replace('/fuck/' + document.eff_form.eff.value);
-    };
-</script>
-{% endif %}
 
 <div class="row">
     <div class="span6">
@@ -67,6 +61,16 @@
         {% endfor %}
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+    var handle_eff = function() {
+        return window.location.replace('/fuck/' + document.eff_form.eff.value);
+    };
+</script>
 
 {% endblock %}
 

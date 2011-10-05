@@ -36,7 +36,7 @@ def give_fuck(fuck):
     eff.save()
     return eff
 
-@app.route("/fuck", methods=['GET', 'POST'])
+@app.route("/fuck/", methods=['GET', 'POST'])
 @app.route("/", methods=['GET', 'POST'])
 def root(current=None):
     if flask.request.method == 'POST':
