@@ -8,7 +8,7 @@
 <div class="page-header center">
     <h1><small>You're the {{ number }} person to say:</small><br>
     "Fuck {{ current.eff|safe }}!"</h1>
-    <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{ current.short_url }}"><br>
+    <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{ current.short_url }}&chld=H|0"><br>
     Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
 </div>
 {% else %}
