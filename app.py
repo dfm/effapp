@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import os
-
+import re
 import json
 import flask
 import inflect
@@ -10,11 +10,14 @@ inflecteng = inflect.engine()
 
 from models import Eff
 
+import config
 app = flask.Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object(config)
 
 from database import Database
 db = Database()
+
+check_mobile = re.compile(r"(iphone|ipod|blackberry|android|palm|windows\s+ce)", re.I)
 
 def give_fuck(fuck):
     """
@@ -33,14 +36,11 @@ def give_fuck(fuck):
     """
     eff = Eff(fuck, db)
     eff.increment()
-    eff.save()
     return eff
 
-@app.route("/fuck/", methods=['GET', 'POST'])
-@app.route("/", methods=['GET', 'POST'])
-def root(current=None):
-    if flask.request.method == 'POST':
-        return do_eff_gui(flask.request.form['eff'])
+@app.route("/fuck/")
+@app.route("/")
+def root():
     return render_home()
 
 @app.route("/fuck/<new_eff>")
@@ -56,6 +56,12 @@ def do_eff_gui(new_eff, gui=None):
     return render_home()
 
 def render_home(current=None):
+    if check_mobile.search(flask.request.headers["user_agent"]) and not "force_desktop" in flask.session:
+        #flask.session["force_desktop"] = True
+        pass # is mobile
+    else:
+        pass # is not mobile
+    ####
     number = None
     if current is not None:
         number = inflecteng.number_to_words(inflecteng.ordinal(current.count))

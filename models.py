@@ -11,18 +11,14 @@ class Eff(object):
         try:
             self._doc = db[eff]
         except KeyError:
-            self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now(), 'date_access': []}
+            self._doc = {'eff': eff, 'count': 0, 'date_created': datetime.now()}
+            self.db.save(self._doc)
         self.short_url = '/'.join([config.BASEURL, "fuck", eff])
 
     def __getattr__(self, name):
         return self._doc[name]
 
     def increment(self):
-        self._doc['date_modified'] = datetime.now()
-        self._doc['date_access'].append(datetime.now())
+        self.db.increment(self._doc['eff'])
         self._doc['count'] += 1
-
-    def save(self):
-        self._doc['_id'] = self.db.save(self._doc)
-
 

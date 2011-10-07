@@ -4,6 +4,7 @@
 import config
 import pymongo
 from time import time
+from datetime import datetime
 
 class Database(object):
   def __init__(self):
@@ -17,6 +18,11 @@ class Database(object):
 
   def save(self, item):
     return self.collection.save(item)
+
+  def increment(self, item):
+    now = datetime.now()
+    self.collection.update({'eff': item}, {'$inc': {'count': 1},
+        '$push': {'date_access': now}, '$set': {'date_modified': now}})
 
   def __getitem__(self, item):
     result = self.collection.find_one({'eff': item})
