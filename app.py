@@ -79,7 +79,7 @@ def do_eff_text(new_eff):
 
 def show_data(eff_name):
     eff = Eff(eff_name, db)
-    return flask.make_response(json.dumps(eff.date_access, default=str))
+    return flask.make_response(json.dumps(eff.day_access, default=str))
 
 @app.route("/favicon.ico")
 def favicon():

@@ -5,7 +5,7 @@ import os
 
 e = os.environ
 
-DEBUG      = True #False
+DEBUG      = False
 SECRET_KEY = e['SECRET_KEY']
 USERNAME   = e['MONGO_USER']
 PASSWORD   = e['MONGO_PASS']
