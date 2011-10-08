@@ -21,8 +21,10 @@ class Database(object):
 
   def increment(self, item):
     now = datetime.now()
-    self.collection.update({'eff': item}, {'$inc': {'count': 1},
-        '$push': {'date_access': now}, '$set': {'date_modified': now}})
+    self.collection.update({'eff': item},
+            {'$inc': {'count': 1, 'day_access.%s'%(now.date()): 1},
+             '$push': {'date_access': now},
+             '$set': {'date_modified': now}})
 
   def __getitem__(self, item):
     result = self.collection.find_one({'eff': item})
