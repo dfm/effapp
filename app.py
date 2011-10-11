@@ -38,6 +38,12 @@ def give_fuck(fuck):
     eff.increment()
     return eff
 
+@app.route("/geoip/")
+def testgeoip():
+    import GeoIP
+    geo = GeoIP.new(GeoIP.GEOIP_MEMORY_CACHE)
+    return flask.make_response("%s\n%s\n"%( geo.country_code_by_name("google.com"), geo.record_by_name("google.com"))
+
 @app.route("/fuck/")
 @app.route("/")
 def root():
