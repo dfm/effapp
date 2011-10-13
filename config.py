@@ -14,4 +14,5 @@ SERVER     = e['MONGO_SERVER']
 PORT       = int(e['MONGO_PORT'])
 GAPIKEY    = e['GAPIKEY']
 BASEURL    = e['BASEURL']
+GANALYTICS = e['GANALYTICS']
 
