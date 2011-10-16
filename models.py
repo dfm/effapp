@@ -19,7 +19,7 @@ class Eff(object):
         return self._doc[name]
 
     def add_location(self, location):
-        self.db.add_location(self._doc['eff'])
+        self.db.add_location(self._doc['eff'], location)
 
     def increment(self):
         self.db.increment(self._doc['eff'])
