@@ -7,69 +7,69 @@
 {% if current %}
 <div class="page-header center">
     <h1><small>You're the {{ number }} person to say:</small><br>
-    "Fuck {{ current.eff|safe }}!"</h1>
+        "Fuck {{ current.eff|safe }}!"</h1>
     <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{ current.short_url }}&chld=H|0"><br>
     Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
-{% else %}
-<div class="page-header">
-{% endif %}
-    <div class="row">
-        <form action="javascript:handle_eff();" name="eff_form">
-            <div class="centeredinput">
-                <span class="begin">Fuck</span>
-                    <input name="eff" size="50" type="text" />
-                <span class="end">!</span>
-            </div>
-        </form>
-    </div><!-- /clearfix -->
-</div>
-
-<div class="row">
-    <div class="span6">
+    {% else %}
+    <div class="page-header">
+        {% endif %}
         <div class="row">
-            <div class="span6">
-                <h2>Popular</h2>
+            <form action="javascript:handle_eff();" name="eff_form">
+                <div class="centeredinput">
+                    <span class="begin">Fuck</span>
+                    <input name="eff" size="50" type="text" />
+                    <span class="end">!</span>
+                </div>
+            </form>
+        </div><!-- /clearfix -->
+    </div>
+
+    <div class="row">
+        <div class="span6">
+            <div class="row">
+                <div class="span6">
+                    <h2>Popular</h2>
+                </div>
             </div>
-        </div>
-        {% for doc in popular %}
+            {% for doc in popular %}
             <div class="row">
                 <div class="span5">
                     <a href="/fuck/{{ doc.eff|safe }}">
                         Fuck {{ doc.eff|safe }}!</a> ({{ doc.count }})
                 </div>
             </div>
-        {% else %}
+            {% else %}
             <em>Unbelievable.  No entries here so far</em>
-        {% endfor %}
-    </div>
-
-    <div class="span6">
-        <div class="row">
-            <div class="span6">
-                <h2>Recent</h2>
-            </div>
+            {% endfor %}
         </div>
-        {% for doc in recent %}
+
+        <div class="span6">
+            <div class="row">
+                <div class="span6">
+                    <h2>Recent</h2>
+                </div>
+            </div>
+            {% for doc in recent %}
             <div class="row">
                 <div class="span6">
                     <a href="/fuck/{{ doc.eff|safe }}">
                         Fuck {{ doc.eff|safe }}!</a>
                 </div>
             </div>
-        {% else %}
+            {% else %}
             <em>Unbelievable.  No entries here so far</em>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
-</div>
 
-{% endblock %}
+    {% endblock %}
 
-{% block scripts %}
+    {% block scripts %}
 
-<script type="text/javascript">
-    var handle_eff = function() {
-        return window.location.replace('/fuck/' + document.eff_form.eff.value);
-    };
+    <script type="text/javascript">
+        var handle_eff = function() {
+            return window.location.replace('/fuck/' + document.eff_form.eff.value);
+        };
 </script>
 
 {% endblock %}
