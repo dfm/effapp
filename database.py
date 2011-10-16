@@ -29,14 +29,26 @@ class Database(object):
              '$push': {'date_access': now},
              '$set': {'date_modified': now}})
 
+  def add_location(self, item, location):
+    self.collection.update({'eff': item}, {'$push' : {'locations' : location}})
+
   def __getitem__(self, item):
-    result = self.collection.find_one({'eff': item})
+    result = self.collection.find_one({'eff': item},fields={'eff':1, 'count':1,'date_created':1})
     if result is None:
       raise KeyError
     return result
 
+  def __contains__(self, item):
+    return not self.collection.find_one({'eff': item}, fields={'_id': 1}) is None
+
+  def get_access_date(self, item):
+    return self.collection.find_one({"eff":item}, fields={'day_access' : 1 })
+
   def get_access_times(self, item):
     return self.collection.find_one({"eff":item}, fields={'date_access' : 1 })
+
+  def get_locations(self, item):
+    return self.collection.find_one({"eff":item}, fields={"locations" : 1})
 
   def get_popular(self, limit=10):
     return self.collection.find(fields={'eff': 1, 'count': 1}) \
