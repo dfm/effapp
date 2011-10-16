@@ -7,7 +7,6 @@ import json
 import flask
 import inflect
 inflecteng = inflect.engine()
-
 from models import Eff
 
 import config
@@ -75,7 +74,8 @@ def render_home(current=None):
                                  current = current,
                                  number  = number,
                                  popular = db.get_popular(10),
-                                 recent  = db.get_recent(10))
+                                 recent  = db.get_recent(10),
+                                 google_analytics = config.GANALYTICS)
 
 def do_eff_text(new_eff):
     if new_eff != None:
