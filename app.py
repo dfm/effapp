@@ -44,19 +44,16 @@ def give_fuck(fuck):
     eff = Eff(fuck, db)
     eff.increment()
 
-    print flask.session
     return eff
 
 @app.route("/location/<longitude>,<latitude>")
 def give_location(longitude, latitude):
     longitude = float(longitude)
     latitude  = float(latitude)
-    print flask.session
     if -180 <= longitude < 180 and -180 <= latitude < 180:
         flask.session["location"] = [longitude, latitude]
         if 'fuck' in flask.session:
             for fuck,props in flask.session["fuck"].iteritems():
-                print fuck, props
                 if "locate" in props and props["locate"] == False:
                   db.add_location(fuck, [longitude, latitude])
                   flask.session["fuck"][fuck]["locate"] = True
@@ -93,7 +90,6 @@ def do_eff_gui(new_eff, gui=None):
     return render_home()
 
 def render_home(current=None):
-    print flask.session
     if check_mobile.search(flask.request.headers["user_agent"]) and "force_desktop" not in flask.session:
         #flask.session["force_desktop"] = True
         pass # is mobile

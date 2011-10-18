@@ -5,6 +5,7 @@
 {% block body %}
 
 {% if current %}
+<script language="javascript" src="{{ url_for('.static', filename='locate.js') }}"></script>
 <div class="page-header center">
     <h1><small>You're the {{ number }} person to say:</small><br>
         "Fuck {{ current.eff|safe }}!"</h1>
