@@ -18,6 +18,9 @@ class Eff(object):
     def __getattr__(self, name):
         return self._doc[name]
 
+    def add_location(self, location):
+        self.db.add_location(self._doc['eff'], location)
+
     def increment(self):
         self.db.increment(self._doc['eff'])
         self._doc['count'] += 1

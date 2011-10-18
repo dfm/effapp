@@ -33,9 +33,46 @@ def give_fuck(fuck):
         The incremented eff object
 
     """
+    if "fuck" not in flask.session:
+        flask.session["fuck"] = {}
+    try:
+        flask.session["fuck"][fuck]["count"] += 1
+    except KeyError:
+        flask.session["fuck"][fuck] = {"count":1, "locate": False}
+    flask.session.modified = True
+
     eff = Eff(fuck, db)
     eff.increment()
+
     return eff
+
+@app.route("/location/<longitude>,<latitude>")
+def give_location(longitude, latitude):
+    longitude = float(longitude)
+    latitude  = float(latitude)
+    if -180 <= longitude < 180 and -180 <= latitude < 180:
+        flask.session["location"] = [longitude, latitude]
+        if 'fuck' in flask.session:
+            for fuck,props in flask.session["fuck"].iteritems():
+                if "locate" in props and props["locate"] == False:
+                  db.add_location(fuck, [longitude, latitude])
+                  flask.session["fuck"][fuck]["locate"] = True
+        flask.session.modified = True
+        return flask.make_response("1")
+    else:
+        return flask.make_response("0")
+
+@app.route("/data/<field>/<eff>")
+def show_data(field, eff):
+    if field == "day_access":
+      data = db.get_access_date(eff)
+    elif field == "location":
+      data = db.get_locations(eff)
+    elif field == "access_times":
+      data = db.get_access_times(eff)
+    else:
+      data = "Bad Field"
+    return flask.make_response(json.dumps(data, default=str))
 
 @app.route("/fuck/")
 @app.route("/")
@@ -47,15 +84,13 @@ def root():
 def do_eff_gui(new_eff, gui=None):
     if gui == 'text':
         return do_eff_text(new_eff)
-    elif gui == 'data':
-        return show_data(new_eff)
     if new_eff != None:
         eff = give_fuck(new_eff)
         return render_home(current=eff)
     return render_home()
 
 def render_home(current=None):
-    if check_mobile.search(flask.request.headers["user_agent"]) and not "force_desktop" in flask.session:
+    if check_mobile.search(flask.request.headers["user_agent"]) and "force_desktop" not in flask.session:
         #flask.session["force_desktop"] = True
         pass # is mobile
     else:
@@ -76,10 +111,6 @@ def do_eff_text(new_eff):
         eff = give_fuck(new_eff)
         return flask.make_response("Fucks given about %s: %s\n"%(new_eff, eff.count))
     return flask.make_response("You don't give a fuck about giving a fuck\n")
-
-def show_data(eff_name):
-    eff = Eff(eff_name, db)
-    return flask.make_response(json.dumps(eff.day_access, default=str))
 
 @app.route("/favicon.ico")
 def favicon():
