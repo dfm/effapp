@@ -33,25 +33,37 @@ def give_fuck(fuck):
         The incremented eff object
 
     """
+    if "fuck" not in flask.session:
+        flask.session["fuck"] = {}
+    try:
+        flask.session["fuck"][fuck]["count"] += 1
+    except KeyError:
+        flask.session["fuck"][fuck] = {"count":1, "locate": False}
+    flask.session.modified = True
+
     eff = Eff(fuck, db)
     eff.increment()
-    flask.session["eff"] = fuck
-    flask.session["locate"] = None
+
+    print flask.session
     return eff
 
 @app.route("/location/<longitude>,<latitude>")
 def give_location(longitude, latitude):
     longitude = float(longitude)
     latitude  = float(latitude)
-    try:
-        if flask.session['eff'] in db and ("locate" not in flask.session or flask.session["locate"] == None):
-            if -180 <= longitude < 180 and -180 <= latitude < 180:
-                flask.session["locate"] = [longitude, latitude]
-                db.add_location(flask.session["eff"], [longitude, latitude])
-                return flask.make_response("1")
-    except Exception, e:
-        pass
-    return flask.make_response("0")
+    print flask.session
+    if -180 <= longitude < 180 and -180 <= latitude < 180:
+        flask.session["location"] = [longitude, latitude]
+        if 'fuck' in flask.session:
+            for fuck,props in flask.session["fuck"].iteritems():
+                print fuck, props
+                if "locate" in props and props["locate"] == False:
+                  db.add_location(fuck, [longitude, latitude])
+                  flask.session["fuck"][fuck]["locate"] = True
+        flask.session.modified = True
+        return flask.make_response("1")
+    else:
+        return flask.make_response("0")
 
 @app.route("/data/<field>/<eff>")
 def show_data(field, eff):
@@ -81,6 +93,7 @@ def do_eff_gui(new_eff, gui=None):
     return render_home()
 
 def render_home(current=None):
+    print flask.session
     if check_mobile.search(flask.request.headers["user_agent"]) and "force_desktop" not in flask.session:
         #flask.session["force_desktop"] = True
         pass # is mobile
