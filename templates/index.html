@@ -18,11 +18,9 @@
 
 </style>
 
-{% if current %}
-<script language="javascript" src="{{ url_for('.static', filename='locate.js') }}"></script>
 <div class="page-header center">
     <div id="logo"></div>
-    
+
 {% if current %}
     <h1><small>You're the {{ number }} person to say:</small><br>
         "Fuck {{ current.eff|safe }}!"</h1>
@@ -78,15 +76,20 @@
         </div>
     </div>
 
-    {% endblock %}
+{% endblock %}
 
-    {% block scripts %}
+{% block scripts %}
 
     <script type="text/javascript">
         var handle_eff = function() {
             return window.location.replace('/fuck/' + document.eff_form.eff.value);
         };
-</script>
+    </script>
+
+{% if current %}
+<script language="javascript" src="{{ url_for('.static', filename='locate.js') }}"></script>
+{% endif %}
+    
 
 {% endblock %}
 
