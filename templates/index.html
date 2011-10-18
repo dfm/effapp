@@ -4,15 +4,29 @@
 
 {% block body %}
 
-{% if current %}
+<style type="text/css">
+
+    #logo {
+        display: block;
+        background-image: url({{ url_for('.static', filename='logo.png') }});
+        background-repeat: no-repeat;
+        width: 330px;
+        height: 140px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+</style>
+
 <div class="page-header center">
+    <div id="logo"></div>
+    
+{% if current %}
     <h1><small>You're the {{ number }} person to say:</small><br>
         "Fuck {{ current.eff|safe }}!"</h1>
     <img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&chl={{ current.short_url }}&chld=H|0"><br>
     Share: <a href="{{ current.short_url }}">{{ current.short_url }}</a>
-    {% else %}
-    <div class="page-header">
-        {% endif %}
+{% endif %}
         <div class="row">
             <form action="javascript:handle_eff();" name="eff_form">
                 <div class="centeredinput">
